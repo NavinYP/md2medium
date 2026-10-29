@@ -18,7 +18,7 @@ import { copyArticleRichText, copyText } from './utils/clipboard';
 
 export default function App() {
   const [markdown, setMarkdown] = useState<string>(SAMPLE_MARKDOWN);
-  const [markdownFileName, setMarkdownFileName] = useState<string>('sample-rag-migration.md');
+  const [markdownFileName, setMarkdownFileName] = useState<string>('sample-architecture-guide.md');
   const [settings, setSettings] = useState<PublishSettings>({
     captionMode: 'excluded',
     tableModeGlobal: 'ascii',
@@ -53,10 +53,10 @@ export default function App() {
       assetStore.addFile(file, `assets/${filename}`);
     }
     setMarkdown(SAMPLE_MARKDOWN);
-    setMarkdownFileName('sample-rag-migration.md');
+    setMarkdownFileName('sample-architecture-guide.md');
     setAttachedFilesCount(Object.keys(samples).length);
     setDoneFiguresMap({});
-    showToast('Loaded sample technical article', '3 diagrams and 1 table attached', 'info');
+    showToast('Sample article loaded', '3 diagrams and 1 table attached', 'info');
   };
 
   const showToast = (message: string, sub?: string, type: ToastProps['type'] = 'success') => {
@@ -120,8 +120,7 @@ export default function App() {
       reader.readAsText(primaryMd);
     } else if (imagesAdded > 0) {
       setAttachedFilesCount(assetStore.getAllFiles().length);
-      showToast('Image assets updated', `${imagesAdded} files added to asset store`, 'success');
-      // Trigger re-render by updating settings or dummy state
+      showToast('Images updated', `${imagesAdded} files added to asset registry`, 'success');
       setSettings(s => ({ ...s }));
     }
   };
@@ -132,17 +131,16 @@ export default function App() {
     setMarkdownFileName('');
     setAttachedFilesCount(0);
     setDoneFiguresMap({});
-    showToast('Draft and assets cleared', '', 'info');
+    showToast('Draft cleared', '', 'info');
   };
 
   const handleToggleDone = (id: string) => {
     setDoneFiguresMap(prev => {
       const next = { ...prev, [id]: !prev[id] };
-      // Check if all are now done
       const allDone = parsed.figures.length > 0 && parsed.figures.every(f => (f.id === id ? next[id] : next[f.id]));
       if (allDone) {
         try {
-          confetti({ particleCount: 80, spread: 60, origin: { y: 0.7 } });
+          confetti({ particleCount: 50, spread: 50, origin: { y: 0.7 } });
         } catch (_) {}
       }
       return next;
@@ -155,23 +153,20 @@ export default function App() {
       next[f.id] = true;
     });
     setDoneFiguresMap(next);
-    try {
-      confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
-    } catch (_) {}
-    showToast('✓ All figures marked as done', '', 'success');
+    showToast('All figures marked as placed', '', 'success');
   };
 
   const handleResetAll = () => {
     setDoneFiguresMap({});
-    showToast('Figure checklist reset', '', 'info');
+    showToast('Checklist reset', '', 'info');
   };
 
   const handleLocateSlot = (slotId: string) => {
     const el = document.getElementById(slotId);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      el.classList.add('ring-4', 'ring-teal-400');
-      setTimeout(() => el.classList.remove('ring-4', 'ring-teal-400'), 1800);
+      el.classList.add('ring-2', 'ring-[#b45309]');
+      setTimeout(() => el.classList.remove('ring-2', 'ring-[#b45309]'), 1800);
     }
   };
 
@@ -181,18 +176,15 @@ export default function App() {
     setIsCopyingFull(false);
 
     if (result.success) {
-      try {
-        confetti({ particleCount: 50, spread: 50, origin: { y: 0.2 } });
-      } catch (_) {}
       showToast(
-        '✓ Full article copied! Now press Cmd+V in Medium',
-        'Semantic HTML written to clipboard. All headers, code blocks & lists will format natively.',
+        '✓ Full article copied! Press Cmd+V in Medium',
+        'Semantic HTML ready. Headers, code blocks & lists will format natively.',
         'success'
       );
     } else {
       showToast(
         'Clipboard copy failed',
-        'Please check clipboard permissions in your browser or copy directly from the HTML source tab.',
+        'Check clipboard permissions or copy from the HTML source tab.',
         'warn'
       );
     }
@@ -200,7 +192,6 @@ export default function App() {
 
   const handleChangeTableMode = (mode: TableMode) => {
     setSettings(prev => ({ ...prev, tableModeGlobal: mode }));
-    // Update all tables in state
     setTableStateMap(prev => {
       const next = { ...prev };
       parsed.tables.forEach(t => {
@@ -209,19 +200,19 @@ export default function App() {
       return next;
     });
     showToast(
-      `Table mode set to ${mode.toUpperCase()}`,
+      `Table mode: ${mode.toUpperCase()}`,
       mode === 'ascii'
         ? 'Formatted as monospace code block for Medium'
         : mode === 'png'
-        ? 'Generating 2x Retina PNG card in Figure Checklist'
+        ? 'Generating 2x Retina PNG card in Media Checklist'
         : 'Native <table> HTML for Substack or Notion',
       'info'
     );
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-teal-500/30">
-      {/* Sticky Studio Header */}
+    <div className="h-screen flex flex-col bg-[#1a1816] text-[#ede8df] selection:bg-[#92400e]/40 overflow-hidden">
+      {/* Studio Header */}
       <Header
         settings={settings}
         onUpdateSettings={u => setSettings(s => ({ ...s, ...u }))}
@@ -230,10 +221,9 @@ export default function App() {
         onOpenGuide={() => setIsGuideOpen(true)}
       />
 
-      {/* Main App Workspace */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Drop & Settings Row */}
-        <div className="px-4 pt-4 shrink-0">
+      {/* Slim Top Utility Row (DropZone + Table Settings) */}
+      <div className="px-4 py-2 bg-[#1f1c19] border-b border-[#332e29] shrink-0 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2">
+        <div className="flex-1 min-w-0">
           <DropZone
             onFilesDropped={handleFilesDropped}
             onLoadSample={loadSampleData}
@@ -241,52 +231,56 @@ export default function App() {
             markdownFileName={markdownFileName}
             onClear={handleClear}
           />
-          <TableSettingsBar
-            tableCount={parsed.tables.length}
-            globalMode={settings.tableModeGlobal}
-            onChangeGlobalMode={handleChangeTableMode}
-          />
         </div>
-
-        {/* 3-Column Split Studio Layout */}
-        <div className="flex-1 flex overflow-hidden border-t border-slate-800">
-          {/* Column 1: Markdown Editor (Collapsible) */}
-          <MarkdownEditor
-            value={markdown}
-            onChange={setMarkdown}
-            wordCount={parsed.wordCount}
-            readTime={parsed.readTimeMinutes}
-            isCollapsed={isEditorCollapsed}
-            onToggleCollapse={() => setIsEditorCollapsed(!isEditorCollapsed)}
-            onCopyRaw={() => {
-              copyText(markdown);
-              showToast('✓ Raw Markdown copied', '', 'info');
-            }}
-          />
-
-          {/* Column 2: Medium Article Preview */}
-          <ArticlePreview
-            previewHtml={parsed.previewHtml}
-            clipboardHtml={parsed.clipboardHtml}
-            plainText={parsed.plainText}
-            theme={settings.theme}
-            onSlotClick={handleLocateSlot}
-            showToast={showToast}
-          />
-
-          {/* Column 3: Sticky Figure & Table Checklist Sidebar */}
-          <FigureSidebar
-            figures={parsed.figures}
-            onToggleDone={handleToggleDone}
-            onMarkAllDone={handleMarkAllDone}
-            onResetAll={handleResetAll}
-            onLocate={handleLocateSlot}
-            showToast={showToast}
-          />
-        </div>
+        {parsed.tables.length > 0 && (
+          <div className="shrink-0">
+            <TableSettingsBar
+              tableCount={parsed.tables.length}
+              globalMode={settings.tableModeGlobal}
+              onChangeGlobalMode={handleChangeTableMode}
+            />
+          </div>
+        )}
       </div>
 
-      {/* Guide & FAQ Modal */}
+      {/* 3-Column Full-Height Split Workspace */}
+      <div className="flex-1 min-h-0 flex overflow-hidden">
+        {/* Column 1: Markdown Editor (Collapsible) */}
+        <MarkdownEditor
+          value={markdown}
+          onChange={setMarkdown}
+          wordCount={parsed.wordCount}
+          readTime={parsed.readTimeMinutes}
+          isCollapsed={isEditorCollapsed}
+          onToggleCollapse={() => setIsEditorCollapsed(!isEditorCollapsed)}
+          onCopyRaw={() => {
+            copyText(markdown);
+            showToast('✓ Raw Markdown copied', '', 'info');
+          }}
+        />
+
+        {/* Column 2: Article Preview (Medium Layout) */}
+        <ArticlePreview
+          previewHtml={parsed.previewHtml}
+          clipboardHtml={parsed.clipboardHtml}
+          plainText={parsed.plainText}
+          theme={settings.theme}
+          onSlotClick={handleLocateSlot}
+          showToast={showToast}
+        />
+
+        {/* Column 3: Figure & Media Checklist */}
+        <FigureSidebar
+          figures={parsed.figures}
+          onToggleDone={handleToggleDone}
+          onMarkAllDone={handleMarkAllDone}
+          onResetAll={handleResetAll}
+          onLocate={handleLocateSlot}
+          showToast={showToast}
+        />
+      </div>
+
+      {/* Guide & Tips Modal */}
       <GuideModal isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} />
 
       {/* Toast Feedback */}

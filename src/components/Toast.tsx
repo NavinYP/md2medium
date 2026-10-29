@@ -17,37 +17,31 @@ export const Toast: React.FC<ToastProps> = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
-    }, 3800);
+    }, 3200);
     return () => clearTimeout(timer);
   }, [onClose]);
 
   const icons = {
-    success: <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />,
-    info: <Info className="w-5 h-5 text-sky-500 shrink-0" />,
-    warn: <AlertCircle className="w-5 h-5 text-amber-500 shrink-0" />,
-  };
-
-  const borders = {
-    success: 'border-emerald-500/30 bg-slate-900/95 text-slate-100 shadow-emerald-500/10',
-    info: 'border-sky-500/30 bg-slate-900/95 text-slate-100 shadow-sky-500/10',
-    warn: 'border-amber-500/30 bg-slate-900/95 text-slate-100 shadow-amber-500/10',
+    success: <CheckCircle2 className="w-4 h-4 text-[#86efac] shrink-0" />,
+    info: <Info className="w-4 h-4 text-[#f59e0b] shrink-0" />,
+    warn: <AlertCircle className="w-4 h-4 text-[#f87171] shrink-0" />,
   };
 
   return (
-    <div className={`fixed bottom-6 right-6 z-50 flex items-start gap-3 p-4 rounded-xl border shadow-xl backdrop-blur-md max-w-md animate-in fade-in slide-in-from-bottom-4 transition-all duration-200 ${borders[type]}`}>
+    <div className="fixed bottom-5 right-5 z-50 flex items-start gap-2.5 px-3.5 py-2.5 rounded-lg border border-[#3d3731] bg-[#221e1a] text-[#ede8df] shadow-xl backdrop-blur-xs max-w-sm animate-in fade-in slide-in-from-bottom-2 transition-all">
       {icons[type]}
-      <div className="flex-1 pr-2">
-        <p className="text-sm font-semibold leading-tight">{message}</p>
+      <div className="flex-1 pr-1">
+        <p className="text-xs font-semibold leading-tight">{message}</p>
         {subMessage && (
-          <p className="text-xs text-slate-400 mt-1 leading-normal">{subMessage}</p>
+          <p className="text-[11px] text-[#a89f91] mt-0.5 leading-snug">{subMessage}</p>
         )}
       </div>
       <button
         onClick={onClose}
-        className="text-slate-400 hover:text-slate-200 p-1 rounded-md transition-colors"
-        aria-label="Close notification"
+        className="text-[#78716c] hover:text-[#ede8df] p-0.5 rounded transition-colors"
+        aria-label="Close"
       >
-        <X className="w-4 h-4" />
+        <X className="w-3.5 h-3.5" />
       </button>
     </div>
   );

@@ -23,47 +23,47 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({
 
   const handleCopySource = async (content: string, label: string) => {
     await copyText(content);
-    showToast(`✓ ${label} copied to clipboard!`, '', 'success');
+    showToast(`✓ ${label} copied to clipboard`, '', 'success');
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-950/40">
+    <div className="flex-1 min-h-0 flex flex-col h-full overflow-hidden bg-[#181614]">
       {/* View Switcher Header */}
-      <div className="p-3 border-b border-slate-800 flex items-center justify-between bg-slate-900/90 backdrop-blur-md sticky top-0 z-10">
-        <div className="flex items-center gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
+      <div className="h-10 px-3.5 border-b border-[#332e29] flex items-center justify-between bg-[#24201c] shrink-0">
+        <div className="flex items-center gap-1 bg-[#1a1715] p-0.5 rounded-md border border-[#332e29] text-xs">
           <button
             onClick={() => setViewMode('preview')}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-md font-medium transition-colors ${
+            className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded font-medium transition-colors ${
               viewMode === 'preview'
-                ? 'bg-slate-800 text-slate-100'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#332e29] text-[#f5f0e6]'
+                : 'text-[#8c8376] hover:text-[#d6cfc5]'
             }`}
           >
-            <Eye className="w-3.5 h-3.5 text-teal-400" />
-            <span>Medium Layout Preview</span>
+            <Eye className="w-3.5 h-3.5 text-[#d97706]" />
+            <span>Reading Preview</span>
           </button>
 
           <button
             onClick={() => setViewMode('html')}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-md font-medium transition-colors ${
+            className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded font-medium transition-colors ${
               viewMode === 'html'
-                ? 'bg-slate-800 text-slate-100'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#332e29] text-[#f5f0e6]'
+                : 'text-[#8c8376] hover:text-[#d6cfc5]'
             }`}
           >
-            <Code className="w-3.5 h-3.5 text-sky-400" />
-            <span>Semantic Clipboard HTML</span>
+            <Code className="w-3.5 h-3.5 text-[#a89f91]" />
+            <span>Clipboard HTML</span>
           </button>
 
           <button
             onClick={() => setViewMode('text')}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-md font-medium transition-colors ${
+            className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded font-medium transition-colors ${
               viewMode === 'text'
-                ? 'bg-slate-800 text-slate-100'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#332e29] text-[#f5f0e6]'
+                : 'text-[#8c8376] hover:text-[#d6cfc5]'
             }`}
           >
-            <FileText className="w-3.5 h-3.5 text-amber-400" />
+            <FileText className="w-3.5 h-3.5 text-[#a89f91]" />
             <span>Plain Text</span>
           </button>
         </div>
@@ -71,22 +71,22 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({
         {viewMode !== 'preview' && (
           <button
             onClick={() => handleCopySource(viewMode === 'html' ? clipboardHtml : plainText, viewMode === 'html' ? 'HTML' : 'Plain Text')}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-colors"
+            className="flex items-center gap-1 px-2.5 py-1 rounded text-xs font-medium text-[#d6cfc5] hover:text-white bg-[#2e2924] hover:bg-[#38312b] border border-[#3d3731] transition-colors"
           >
-            <Copy className="w-3.5 h-3.5" />
+            <Copy className="w-3 h-3" />
             <span>Copy {viewMode === 'html' ? 'HTML' : 'Text'}</span>
           </button>
         )}
       </div>
 
       {/* Main Preview Container */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-8 flex justify-center">
+      <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-8 flex justify-center">
         {viewMode === 'preview' ? (
           <div
-            className={`w-full max-w-[740px] rounded-2xl p-6 sm:p-12 shadow-2xl transition-colors duration-200 ${
+            className={`w-full max-w-[720px] rounded-xl p-6 sm:p-12 shadow-md transition-colors duration-200 h-fit ${
               theme === 'dark'
-                ? 'bg-slate-900 border border-slate-800 text-slate-200'
-                : 'bg-white border border-slate-200/80 text-[#242424]'
+                ? 'bg-[#221e1b] border border-[#38322c] text-[#ede8df]'
+                : 'bg-[#fbfaf7] border border-[#e6e0d4] text-[#262320]'
             }`}
           >
             <div
@@ -102,22 +102,22 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({
             />
           </div>
         ) : viewMode === 'html' ? (
-          <div className="w-full max-w-4xl p-6 rounded-2xl bg-slate-900 border border-slate-800">
-            <div className="text-xs font-mono text-slate-400 mb-3 flex items-center justify-between">
-              <span>Clean semantic HTML (written to clipboard on "Copy Full Article")</span>
+          <div className="w-full max-w-3xl p-5 rounded-xl bg-[#221e1b] border border-[#38322c] h-fit">
+            <div className="text-xs font-mono text-[#8c8376] mb-3 flex items-center justify-between">
+              <span>Clean semantic HTML (written to clipboard on "Copy Article")</span>
               <span>{clipboardHtml.length} characters</span>
             </div>
-            <pre className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-teal-300 overflow-x-auto whitespace-pre-wrap break-all leading-relaxed max-h-[70vh]">
+            <pre className="p-4 rounded-lg bg-[#191715] border border-[#332e29] text-xs font-mono text-[#fde68a] overflow-x-auto whitespace-pre-wrap break-all leading-relaxed max-h-[70vh]">
               {clipboardHtml}
             </pre>
           </div>
         ) : (
-          <div className="w-full max-w-4xl p-6 rounded-2xl bg-slate-900 border border-slate-800">
-            <div className="text-xs font-mono text-slate-400 mb-3 flex items-center justify-between">
-              <span>Plain text fallback for standard clipboards</span>
+          <div className="w-full max-w-3xl p-5 rounded-xl bg-[#221e1b] border border-[#38322c] h-fit">
+            <div className="text-xs font-mono text-[#8c8376] mb-3 flex items-center justify-between">
+              <span>Plain text fallback</span>
               <span>{plainText.length} characters</span>
             </div>
-            <pre className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-slate-300 overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-[70vh]">
+            <pre className="p-4 rounded-lg bg-[#191715] border border-[#332e29] text-xs font-mono text-[#d6cfc5] overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-[70vh]">
               {plainText}
             </pre>
           </div>

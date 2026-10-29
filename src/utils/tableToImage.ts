@@ -1,6 +1,6 @@
 /**
  * Renders a Markdown table into a crisp, publication-grade 2x Retina PNG card
- * directly using HTML5 Canvas in the browser.
+ * directly using HTML5 Canvas in the browser with warm book tones.
  */
 export async function renderTableToPng(
   headers: string[],
@@ -10,27 +10,27 @@ export async function renderTableToPng(
 ): Promise<{ blob: Blob; blobUrl: string }> {
   const scale = 2; // 2x Retina
   const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif';
-  const monoFont = '"SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace';
+  const monoFont = '"JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace';
 
-  // Styling tokens
+  // Warm bookish styling tokens
   const isDark = theme === 'dark';
-  const bgColor = isDark ? '#0f172a' : '#ffffff';
-  const headerBg = isDark ? '#1e293b' : '#f8fafc';
-  const borderColor = isDark ? '#334155' : '#e2e8f0';
-  const textHeaderColor = isDark ? '#f8fafc' : '#0f172a';
-  const textBodyColor = isDark ? '#cbd5e1' : '#334155';
-  const zebraBg = isDark ? '#141e33' : '#fcfcfd';
+  const bgColor = isDark ? '#231f1c' : '#fbfaf7';
+  const headerBg = isDark ? '#2b2622' : '#f3ede2';
+  const borderColor = isDark ? '#3d3731' : '#e6dfd3';
+  const textHeaderColor = isDark ? '#f5f0e6' : '#262320';
+  const textBodyColor = isDark ? '#d6cfc5' : '#44403c';
+  const zebraBg = isDark ? '#27221e' : '#f8f5ee';
 
   // Create measurement canvas
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('Could not get canvas context');
 
-  const cellPaddingX = 20;
+  const cellPaddingX = 18;
   const colCount = headers.length;
 
   // Font setup for measurement
-  ctx.font = `600 14px ${fontFamily}`;
+  ctx.font = `600 13.5px ${fontFamily}`;
   const colWidths: number[] = new Array(colCount).fill(0);
 
   for (let c = 0; c < colCount; c++) {
@@ -38,20 +38,20 @@ export async function renderTableToPng(
     const hWidth = ctx.measureText(headerText).width + cellPaddingX * 2;
     colWidths[c] = Math.max(colWidths[c], hWidth);
 
-    ctx.font = `400 13.5px ${monoFont}`;
+    ctx.font = `400 13px ${monoFont}`;
     for (let r = 0; r < rows.length; r++) {
       const cellText = (rows[r][c] || '').trim();
       const cWidth = ctx.measureText(cellText).width + cellPaddingX * 2;
       colWidths[c] = Math.max(colWidths[c], cWidth);
     }
-    colWidths[c] = Math.max(colWidths[c], 90);
+    colWidths[c] = Math.max(colWidths[c], 85);
   }
 
   const tableWidth = colWidths.reduce((a, b) => a + b, 0);
-  const headerHeight = 44;
-  const rowHeight = 40;
+  const headerHeight = 42;
+  const rowHeight = 38;
   const tableHeight = headerHeight + rows.length * rowHeight;
-  const margin = 16;
+  const margin = 14;
   const canvasWidth = tableWidth + margin * 2;
   const canvasHeight = tableHeight + margin * 2;
 
@@ -61,13 +61,13 @@ export async function renderTableToPng(
   ctx.scale(scale, scale);
 
   // Background
-  ctx.fillStyle = isDark ? '#0b0f19' : '#f1f5f9';
+  ctx.fillStyle = isDark ? '#1a1816' : '#f4efe6';
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
   // Table Card Box (with rounded corners)
   const cardX = margin;
   const cardY = margin;
-  const radius = 10;
+  const radius = 8;
 
   ctx.save();
   ctx.beginPath();
@@ -91,7 +91,7 @@ export async function renderTableToPng(
   ctx.stroke();
 
   // Draw Header Text
-  ctx.font = `600 13.5px ${fontFamily}`;
+  ctx.font = `600 13px ${fontFamily}`;
   ctx.fillStyle = textHeaderColor;
   ctx.textBaseline = 'middle';
 
@@ -137,7 +137,7 @@ export async function renderTableToPng(
     }
 
     // Row text
-    ctx.font = `400 13px ${monoFont}`;
+    ctx.font = `400 12.5px ${monoFont}`;
     ctx.fillStyle = textBodyColor;
     ctx.textBaseline = 'middle';
 

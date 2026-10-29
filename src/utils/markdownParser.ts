@@ -172,18 +172,18 @@ export function parseArticleMarkdown(
     const marker = `%%FIGURE_SLOT_${fig.index}%%`;
     const totalFigs = figures.length;
 
-    // Preview slot UI with interactive badges
+    // Preview slot UI with warm, quiet styling
     const previewSlot = `
-      <div class="my-8 p-4 rounded-xl border-2 border-dashed border-amber-400/80 bg-amber-50/70 dark:bg-amber-950/20 text-amber-900 dark:text-amber-200 transition-all hover:border-amber-500" id="fig-slot-${fig.index}" data-fig="${fig.index}">
-        <div class="flex items-center justify-between gap-3 font-sans text-sm font-semibold mb-1">
-          <span class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded bg-amber-200 dark:bg-amber-900/60 text-amber-800 dark:text-amber-200 text-xs font-bold">SLOT ${fig.slotNumber}/${totalFigs}</span>
-            <span class="font-mono text-xs break-all">${fig.filename}</span>
+      <div class="my-7 p-3.5 rounded-lg border border-dashed border-[#b45309]/50 bg-[#26201b] text-[#ede8df] transition-all hover:border-[#d97706]" id="fig-slot-${fig.index}" data-fig="${fig.index}">
+        <div class="flex items-center justify-between gap-2 font-sans text-xs font-medium mb-1">
+          <span class="flex items-center gap-1.5">
+            <span class="px-1.5 py-0.5 rounded bg-[#3b2b1e] text-[#fde68a] text-[10px] font-mono font-bold">SLOT ${fig.slotNumber}/${totalFigs}</span>
+            <span class="font-mono text-[11px] text-[#d6cfc5]">${fig.filename}</span>
           </span>
-          ${fig.blobUrl ? `<span class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">✓ Image Attached</span>` : `<span class="text-xs text-amber-600 dark:text-amber-400 font-normal">Drop file to attach</span>`}
+          ${fig.blobUrl ? `<span class="text-[11px] text-[#86efac]">✓ Attached</span>` : `<span class="text-[11px] text-[#a89f91]">Drop file to attach</span>`}
         </div>
-        ${fig.blobUrl ? `<div class="my-2 max-h-56 flex justify-center"><img src="${fig.blobUrl}" alt="${fig.alt}" class="max-h-52 object-contain rounded-lg border border-amber-200 dark:border-amber-800 shadow-sm" /></div>` : ''}
-        ${fig.caption ? `<div class="text-xs italic text-slate-600 dark:text-slate-400 mt-2 font-serif">${fig.caption}</div>` : ''}
+        ${fig.blobUrl ? `<div class="my-2 max-h-52 flex justify-center"><img src="${fig.blobUrl}" alt="${fig.alt}" class="max-h-48 object-contain rounded border border-[#3d342c]" /></div>` : ''}
+        ${fig.caption ? `<div class="text-[12px] italic text-[#a89f91] mt-1.5 font-serif">${fig.caption}</div>` : ''}
       </div>
     `;
 
@@ -211,15 +211,15 @@ export function parseArticleMarkdown(
     } else if (table.mode === 'png') {
       const tableFilename = `table-${table.index + 1}.png`;
       tablePreview = `
-        <div class="my-8 p-4 rounded-xl border-2 border-dashed border-sky-400/80 bg-sky-50/70 dark:bg-sky-950/20 text-sky-900 dark:text-sky-200" id="fig-slot-table-${table.index}">
-          <div class="flex items-center justify-between gap-3 font-sans text-sm font-semibold mb-1">
-            <span class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded bg-sky-200 dark:bg-sky-900/60 text-sky-800 dark:text-sky-200 text-xs font-bold">TABLE PNG CARD</span>
-              <span class="font-mono text-xs">${tableFilename}</span>
+        <div class="my-7 p-3.5 rounded-lg border border-dashed border-[#b45309]/50 bg-[#26201b] text-[#ede8df]" id="fig-slot-table-${table.index}">
+          <div class="flex items-center justify-between gap-2 font-sans text-xs font-medium mb-1">
+            <span class="flex items-center gap-1.5">
+              <span class="px-1.5 py-0.5 rounded bg-[#3b2b1e] text-[#fde68a] text-[10px] font-mono font-bold">TABLE PNG CARD</span>
+              <span class="font-mono text-[11px] text-[#d6cfc5]">${tableFilename}</span>
             </span>
-            <span class="text-xs text-sky-700 dark:text-sky-300">Auto-Generated 2x Retina Card</span>
+            <span class="text-[11px] text-[#a89f91]">2x Retina Card</span>
           </div>
-          ${table.pngBlobUrl ? `<div class="my-2 flex justify-center"><img src="${table.pngBlobUrl}" alt="Table ${table.index + 1}" class="max-h-72 object-contain rounded-lg border border-sky-200 dark:border-sky-800 shadow-sm" /></div>` : '<div class="text-xs text-sky-600 dark:text-sky-400 py-3 text-center">Generating high-DPI table card...</div>'}
+          ${table.pngBlobUrl ? `<div class="my-2 flex justify-center"><img src="${table.pngBlobUrl}" alt="Table ${table.index + 1}" class="max-h-64 object-contain rounded border border-[#3d342c]" /></div>` : '<div class="text-xs text-[#a89f91] py-2 text-center">Generating high-DPI table card...</div>'}
         </div>
       `;
       tableClipboard = `<p><strong>[DROP TABLE IMAGE: ${tableFilename}]</strong></p>`;
@@ -268,24 +268,24 @@ function escapeHtml(str: string): string {
 
 function renderHtmlTable(table: TableItem): string {
   const headerHtml = table.headers
-    .map((h, i) => `<th style="border: 1px solid #cbd5e1; padding: 10px 14px; background: #f8fafc; text-align: ${table.alignments[i] || 'left'};">${escapeHtml(h)}</th>`)
+    .map((h, i) => `<th style="border: 1px solid #d6cfc5; padding: 8px 12px; background: #f5f2eb; text-align: ${table.alignments[i] || 'left'};">${escapeHtml(h)}</th>`)
     .join('');
 
   const rowsHtml = table.rows
     .map(row => {
       const cells = row
-        .map((c, i) => `<td style="border: 1px solid #cbd5e1; padding: 10px 14px; text-align: ${table.alignments[i] || 'left'};">${escapeHtml(c)}</td>`)
+        .map((c, i) => `<td style="border: 1px solid #d6cfc5; padding: 8px 12px; text-align: ${table.alignments[i] || 'left'};">${escapeHtml(c)}</td>`)
         .join('');
       return `<tr>${cells}</tr>`;
     })
     .join('');
 
-  return `<table style="width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px;"><thead><tr>${headerHtml}</tr></thead><tbody>${rowsHtml}</tbody></table>`;
+  return `<table style="width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14.5px;"><thead><tr>${headerHtml}</tr></thead><tbody>${rowsHtml}</tbody></table>`;
 }
 
 /**
  * Strips arbitrary class names and wrapper divs from clipboard HTML
- * to ensure Medium imports pure semantic tags (h1, h2, h3, p, pre, code, blockquote, hr, ul, ol).
+ * to ensure Medium imports pure semantic tags.
  */
 function cleanSemanticHtmlForClipboard(rawHtml: string): string {
   const cleaned = rawHtml

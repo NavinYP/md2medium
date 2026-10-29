@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layers, CheckCircle2, RotateCcw, Image as ImageIcon } from 'lucide-react';
+import { RotateCcw, Image as ImageIcon } from 'lucide-react';
 import type { FigureItem } from '../types';
 import { FigureCard } from './FigureCard';
 import { AdSlot } from './AdSlot';
@@ -34,44 +34,34 @@ export const FigureSidebar: React.FC<FigureSidebarProps> = ({
   });
 
   return (
-    <aside className="w-full lg:w-96 shrink-0 flex flex-col bg-slate-900/90 border-l border-slate-800 h-full overflow-hidden">
+    <aside className="w-full lg:w-80 xl:w-96 shrink-0 flex flex-col bg-[#1f1c19] border-l border-[#332e29] h-full overflow-hidden">
       {/* Sidebar Header */}
-      <div className="p-4 border-b border-slate-800 bg-slate-900/95 sticky top-0 z-10 space-y-3">
+      <div className="p-3.5 border-b border-[#332e29] bg-[#24201c] shrink-0 space-y-2.5">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <ImageIcon className="w-4 h-4 text-teal-400" />
-            <h2 className="text-sm font-bold text-slate-100">Figure & Table Checklist</h2>
+          <div className="flex items-center gap-1.5">
+            <ImageIcon className="w-3.5 h-3.5 text-[#d97706]" />
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-[#ede8df]">Media Checklist</h2>
           </div>
-          <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+          <span className="text-xs font-mono text-[#a89f91] px-2 py-0.5 rounded bg-[#1c1916] border border-[#332e29]">
             {completed}/{total} placed
           </span>
         </div>
 
-        {/* Progress Bar */}
-        <div>
-          <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-teal-500 to-emerald-400 transition-all duration-300"
-              style={{ width: `${percentage}%` }}
-            />
-          </div>
-          <div className="flex justify-between items-center text-[11px] text-slate-400 mt-1 font-mono">
-            <span>{percentage}% complete</span>
-            {percentage === 100 && total > 0 && (
-              <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3" /> All Figures Ready!
-              </span>
-            )}
-          </div>
+        {/* Minimal Progress Bar */}
+        <div className="w-full h-1.5 rounded-full bg-[#171513] overflow-hidden">
+          <div
+            className="h-full bg-[#b45309] transition-all duration-300"
+            style={{ width: `${percentage}%` }}
+          />
         </div>
 
         {/* Filter Pills and Bulk Actions */}
-        <div className="flex items-center justify-between pt-1">
-          <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+        <div className="flex items-center justify-between pt-0.5">
+          <div className="flex items-center gap-1 bg-[#1a1715] p-0.5 rounded-md border border-[#332e29]">
             <button
               onClick={() => setFilter('all')}
               className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
-                filter === 'all' ? 'bg-slate-800 text-slate-100' : 'text-slate-400 hover:text-slate-200'
+                filter === 'all' ? 'bg-[#332e29] text-[#f5f0e6]' : 'text-[#8c8376] hover:text-[#d6cfc5]'
               }`}
             >
               All ({total})
@@ -79,7 +69,7 @@ export const FigureSidebar: React.FC<FigureSidebarProps> = ({
             <button
               onClick={() => setFilter('pending')}
               className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
-                filter === 'pending' ? 'bg-slate-800 text-slate-100' : 'text-slate-400 hover:text-slate-200'
+                filter === 'pending' ? 'bg-[#332e29] text-[#f5f0e6]' : 'text-[#8c8376] hover:text-[#d6cfc5]'
               }`}
             >
               Pending ({total - completed})
@@ -87,7 +77,7 @@ export const FigureSidebar: React.FC<FigureSidebarProps> = ({
             <button
               onClick={() => setFilter('done')}
               className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
-                filter === 'done' ? 'bg-slate-800 text-slate-100' : 'text-slate-400 hover:text-slate-200'
+                filter === 'done' ? 'bg-[#332e29] text-[#f5f0e6]' : 'text-[#8c8376] hover:text-[#d6cfc5]'
               }`}
             >
               Done ({completed})
@@ -98,7 +88,7 @@ export const FigureSidebar: React.FC<FigureSidebarProps> = ({
             {completed < total ? (
               <button
                 onClick={onMarkAllDone}
-                className="text-[11px] text-teal-400 hover:text-teal-300 font-medium transition-colors"
+                className="text-[11px] text-[#d97706] hover:text-[#f59e0b] font-medium transition-colors"
                 title="Mark all as placed"
               >
                 Mark all done
@@ -106,7 +96,7 @@ export const FigureSidebar: React.FC<FigureSidebarProps> = ({
             ) : (
               <button
                 onClick={onResetAll}
-                className="text-[11px] text-slate-400 hover:text-slate-300 flex items-center gap-1 transition-colors"
+                className="text-[11px] text-[#8c8376] hover:text-[#d6cfc5] flex items-center gap-1 transition-colors"
                 title="Reset completion status"
               >
                 <RotateCcw className="w-3 h-3" /> Reset
@@ -117,18 +107,17 @@ export const FigureSidebar: React.FC<FigureSidebarProps> = ({
       </div>
 
       {/* Figures Scroll List */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3.5">
+      <div className="flex-1 overflow-y-auto p-3 space-y-2.5 min-h-0">
         {figures.length === 0 ? (
-          <div className="text-center py-12 px-4 border border-dashed border-slate-800 rounded-xl">
-            <Layers className="w-8 h-8 text-slate-600 mx-auto mb-2" />
-            <p className="text-xs font-semibold text-slate-400">No Figures Detected</p>
-            <p className="text-[11px] text-slate-500 mt-1 max-w-xs mx-auto">
-              Add <code className="text-teal-400">![alt](path.png)</code> in your markdown or load the sample article to see live figure cards.
+          <div className="text-center py-10 px-4 border border-dashed border-[#332e29] rounded-lg">
+            <p className="text-xs font-medium text-[#8c8376]">No figures in draft</p>
+            <p className="text-[11px] text-[#6b645b] mt-1">
+              Add <code className="text-[#d97706]">![alt](path.png)</code> to your markdown.
             </p>
           </div>
         ) : filteredFigures.length === 0 ? (
-          <div className="text-center py-8 text-xs text-slate-500">
-            No figures match the selected filter.
+          <div className="text-center py-6 text-xs text-[#8c8376]">
+            No figures match this filter.
           </div>
         ) : (
           filteredFigures.map(fig => (
@@ -142,8 +131,8 @@ export const FigureSidebar: React.FC<FigureSidebarProps> = ({
           ))
         )}
 
-        {/* Bottom Ad / Sponsor slot */}
-        <div className="pt-4 border-t border-slate-800/80">
+        {/* Bottom subtle sponsor link */}
+        <div className="pt-2">
           <AdSlot slotId="figures-sidebar-bottom" format="rectangle" />
         </div>
       </div>

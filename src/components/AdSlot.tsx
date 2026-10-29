@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Star, Heart, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Star, Heart, ExternalLink } from 'lucide-react';
 
 interface AdSlotProps {
   slotId?: string;
@@ -28,8 +28,8 @@ export const AdSlot: React.FC<AdSlotProps> = ({
 
   if (adsEnabled && clientId && slotId) {
     return (
-      <div className={`overflow-hidden text-center my-4 ${className}`} ref={adRef}>
-        <div className="text-[10px] uppercase tracking-wider text-slate-500 mb-1 font-mono">Advertisement</div>
+      <div className={`overflow-hidden text-center my-3 ${className}`} ref={adRef}>
+        <div className="text-[10px] uppercase tracking-wider text-[#78716c] mb-1 font-mono">Sponsor</div>
         <ins
           className="adsbygoogle"
           style={{ display: 'block' }}
@@ -42,34 +42,28 @@ export const AdSlot: React.FC<AdSlotProps> = ({
     );
   }
 
-  // Fallback Sponsor & Open-Source Card
+  // Fallback Minimal Open-Source Link
   return (
-    <div className={`rounded-xl border border-slate-800 bg-slate-900/60 p-3.5 text-center text-xs text-slate-400 ${className}`}>
-      <div className="flex items-center justify-center gap-1.5 text-slate-300 font-semibold mb-1">
-        <ShieldCheck className="w-4 h-4 text-emerald-400" />
-        <span>100% Free & Open Source</span>
-      </div>
-      <p className="text-[11px] text-slate-400 mb-2.5 leading-relaxed">
-        md2medium runs entirely in your browser with zero servers. No drafts or images are ever uploaded.
-      </p>
+    <div className={`rounded-lg border border-[#332e29] bg-[#221e1a] p-2.5 text-center text-xs text-[#8c8376] ${className}`}>
       <div className="flex items-center justify-center gap-2">
         <a
           href="https://github.com/NavinYP/md2medium"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium transition-colors border border-slate-700"
+          className="inline-flex items-center gap-1 text-[11px] text-[#a89f91] hover:text-[#f5f0e6] transition-colors"
         >
-          <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+          <Star className="w-3 h-3 text-[#d97706]" />
           <span>Star on GitHub</span>
-          <ExternalLink className="w-3 h-3 text-slate-400 ml-0.5" />
+          <ExternalLink className="w-2.5 h-2.5 ml-0.5 opacity-60" />
         </a>
+        <span className="text-[#443d37]">·</span>
         <a
           href="https://github.com/sponsors/NavinYP"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-rose-950/40 hover:bg-rose-900/40 text-rose-300 text-[11px] font-medium transition-colors border border-rose-800/50"
+          className="inline-flex items-center gap-1 text-[11px] text-[#a89f91] hover:text-[#f87171] transition-colors"
         >
-          <Heart className="w-3 h-3 text-rose-400 fill-rose-400" />
+          <Heart className="w-3 h-3 text-[#e11d48]" />
           <span>Sponsor</span>
         </a>
       </div>
